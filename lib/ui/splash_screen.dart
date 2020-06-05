@@ -44,23 +44,10 @@ class SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Card(
-                  elevation: 0,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(48.0))),
-                  child: Card(
-                    elevation: 0,
-                    color: Theme.of(context).primaryColor,
-                    margin: EdgeInsets.all(2.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(46.0))),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage:
-                          AssetImage(Utils.getImgPath('ic_launcher_news')),
-                      radius: 46.0,
-                    ),
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(Utils.getImgPath('ic_launcher_news')),
                   ),
                 ),
               ],
