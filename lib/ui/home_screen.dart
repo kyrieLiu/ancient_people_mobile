@@ -44,6 +44,7 @@ class HomeScreenState extends BaseWidgetState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    print("执行initState");
     setAppBarVisible(false);
   }
 
@@ -155,6 +156,7 @@ class HomeScreenState extends BaseWidgetState<HomeScreen> {
 
   @override
   Widget attachContentWidget(BuildContext context) {
+    print("执行attachContentWidget");
     return Scaffold(
       body: SmartRefresher(
         enablePullDown: true,
