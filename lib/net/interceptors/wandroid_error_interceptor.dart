@@ -25,7 +25,6 @@ class WanAndroidErrorInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response) async {
     var data = response.data;
-
     if (data is String) {
       data = json.decode(data);
     }

@@ -6,6 +6,8 @@ import 'package:ancientpeoplemobile/common/user.dart';
 import 'package:ancientpeoplemobile/event/theme_change_event.dart';
 import 'package:ancientpeoplemobile/net/dio_manager.dart';
 import 'package:ancientpeoplemobile/res/colors.dart';
+import 'package:ancientpeoplemobile/ui/home_screen.dart';
+import 'package:ancientpeoplemobile/ui/main_screen.dart';
 import 'package:ancientpeoplemobile/ui/splash_screen.dart';
 import 'package:ancientpeoplemobile/utils/sp_util.dart';
 import 'package:ancientpeoplemobile/utils/theme_util.dart';
@@ -34,7 +36,7 @@ Future<Null> getTheme() async {
   bool dark = SPUtil.getBool(Constants.DARK_KEY, defValue: false);
   if (!dark) {
     String themeColorKey =
-        SPUtil.getString(Constants.THEME_COLOR_KEY, defVlaue: 'blue');
+        SPUtil.getString(Constants.THEME_COLOR_KEY, defVlaue: 'cyan');
     if (themeColorMap.containsKey(themeColorKey)) {
       ThemeUtils.currentThemeColor = themeColorMap[themeColorKey];
     }
@@ -84,7 +86,7 @@ class MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: themeData,
       navigatorKey: navigatorKey,
-      home: SplashScreen(),
+      home: MainScreen(),
     );
   }
 }
