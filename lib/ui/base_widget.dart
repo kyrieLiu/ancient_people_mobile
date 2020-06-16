@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// author Liu Yin
-/// * date 2020/6/8
-/// * Description: widget基类
+/// 封装一个通用的Widget
 abstract class BaseWidget extends StatefulWidget {
   BaseWidgetState baseWidgetState;
 
@@ -17,11 +15,12 @@ abstract class BaseWidget extends StatefulWidget {
 
 abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     with AutomaticKeepAliveClientMixin {
-  //是否展示导航栏
+  /// 导航栏是否显示
   bool _isAppBarShow = true;
 
+  /// 错误信息是否显示
   bool _isErrorWidgetShow = false;
-  String _errorContentMsg = "网络请求失败,请检查您的网络";
+  String _errorContentMsg = "网络请求失败，请检查您的网络";
   String _errorImgPath = "assets/images/ic_error.png";
 
   bool _isLoadingWidgetShow = false;
@@ -29,12 +28,14 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
   bool _isEmptyWidgetShow = false;
   String _emptyContentMsg = "暂无数据";
   String _emptyImgPath = "assets/images/ic_empty.png";
+
   bool _isShowContent = false;
 
-  FontWeight _fontWeight = FontWeight.w600;
+  /// 错误页面和空页面的字体粗度
+  FontWeight _fontWidget = FontWeight.w600;
 
   @override
-  bool get wantKeepAlive => false;
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +56,21 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //悬浮按钮
+  /// 悬浮按钮
   Widget fabWidget() {
     return null;
   }
 
-  //导航栏  AppBar
+  /// 导航栏  AppBar
   AppBar attachAppBar();
 
-  //暴露视图
+  /// 暴露内容视图
   Widget attachContentWidget(BuildContext context);
 
-  //点击错误页面后展示内容
+  /// 点击错误页面后展示内容
   void onClickErrorWidget();
 
+  /// 导航栏 AppBar
   PreferredSizeWidget _attachBaseAppBar() {
     return PreferredSize(
       child: Offstage(
@@ -79,7 +81,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //内容页面
+  /// 内容页面
   Widget _attachBaseContentWidget(BuildContext context) {
     return Offstage(
       offstage: !_isShowContent,
@@ -87,6 +89,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
+  /// 错误页面
   Widget _attachBaseErrorWidget() {
     return Offstage(
       offstage: !_isErrorWidgetShow,
@@ -94,7 +97,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //错误页面模板
+  /// 暴露的错误页面方法，可以自己重写定制
   Widget attachErrorWidget() {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
@@ -113,26 +116,30 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
               margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Text(
                 _errorContentMsg,
-                style: TextStyle(color: Colors.grey, fontWeight: _fontWeight),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: _fontWidget,
+                ),
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: OutlineButton(
-                child: Text(
-                  '重新加载',
-                  style: TextStyle(color: Colors.grey, fontWeight: _fontWeight),
-                ),
+                child: Text("重新加载",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: _fontWidget,
+                    )),
                 onPressed: () => {onClickErrorWidget()},
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  //正在加载页面
+  /// 正在加载页面
   Widget _attachBaseLoadingWidget() {
     return Offstage(
       offstage: !_isLoadingWidgetShow,
@@ -140,15 +147,16 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //暴露正在加载页面的方法
+  /// 暴露的正在加载页面方法，可以自己重写定制
   Widget attachLoadingWidget() {
     return Center(
       child: CircularProgressIndicator(
-        strokeWidth: 2,
+        strokeWidth: 2.0,
       ),
     );
   }
 
+  /// 数据为空的页面
   Widget _attachBaseEmptyWidget() {
     return Offstage(
       offstage: !_isEmptyWidgetShow,
@@ -156,7 +164,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //暴露数据为空页面方法
+  /// 暴露的数据为空页面方法，可以自己重写定制
   Widget attachEmptyWidget() {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
@@ -169,17 +177,18 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(
-                image: AssetImage(_emptyImgPath),
                 color: Colors.black12,
+                image: AssetImage(_emptyImgPath),
                 width: 150,
                 height: 150,
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Text(
-                  _emptyContentMsg,
-                  style: TextStyle(color: Colors.grey, fontWeight: _fontWeight),
-                ),
+                child: Text(_emptyContentMsg,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: _fontWidget,
+                    )),
               )
             ],
           ),
@@ -188,7 +197,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     );
   }
 
-  //设置错误提示信息
+  /// 设置错误提示信息
   Future setErrorContent(String content) async {
     if (content != null) {
       setState(() {
@@ -197,7 +206,16 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     }
   }
 
-  //设置错误页面图片
+  /// 设置空页面信息
+  Future setEmptyContent(String content) async {
+    if (content != null) {
+      setState(() {
+        _emptyContentMsg = content;
+      });
+    }
+  }
+
+  /// 设置错误页面图片
   Future setErrorImg(String imgPath) async {
     if (imgPath != null) {
       setState(() {
@@ -206,7 +224,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T>
     }
   }
 
-  //设置空页面
+  /// 设置空页面图片
   Future setEmptyImg(String imgPath) async {
     if (imgPath != null) {
       setState(() {
