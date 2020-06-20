@@ -156,7 +156,6 @@ class HomeScreenState extends BaseWidgetState<HomeScreen> {
 
   @override
   Widget attachContentWidget(BuildContext context) {
-    print("执行attachContentWidget");
     return Scaffold(
       body: SmartRefresher(
         enablePullDown: true,
