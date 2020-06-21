@@ -27,7 +27,6 @@ class WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     flutterWebViewPlugin.onStateChanged.listen((state) =>
     {

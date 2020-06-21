@@ -7,6 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 /// Description:
 
 class RouteUtil {
+  static void push(BuildContext context, Widget page) async {
+    if (context == null || page == null) {
+      return;
+    }
+    await Navigator.push(
+        context, new CupertinoPageRoute<void>(builder: (context) => page));
+  }
+
   static void toWebView(BuildContext context, String title, String url) async {
     if (context == null || url.isEmpty) return;
     if (url.endsWith('.apk')) {

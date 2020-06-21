@@ -1,12 +1,10 @@
-import 'package:ancientpeoplemobile/ui/base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/app_bar.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-/// author Liu Yin
-/// date 2020/6/16
-/// Description:
+import 'base_widget.dart';
+import 'knowledge_tree_screen.dart';
+import 'navigation_screen.dart';
 
+/// 体系页面
 class SystemScreen extends BaseWidget {
   @override
   BaseWidgetState<BaseWidget> attachState() {
@@ -14,7 +12,25 @@ class SystemScreen extends BaseWidget {
   }
 }
 
-class SystemScreenState extends BaseWidgetState<SystemScreen> {
+class SystemScreenState extends BaseWidgetState<SystemScreen>
+    with TickerProviderStateMixin {
+  var _list = ["体系", "导航"];
+
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    setAppBarVisible(false);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    showContent();
+  }
+
   @override
   AppBar attachAppBar() {
     return AppBar(title: Text(""));
@@ -22,13 +38,41 @@ class SystemScreenState extends BaseWidgetState<SystemScreen> {
 
   @override
   Widget attachContentWidget(BuildContext context) {
+    _tabController = new TabController(length: _list.length, vsync: this);
     return Scaffold(
-      body: Text("体系"),
+      body: Column(
+        children: <Widget>[
+          Container(
+            color: Theme.of(context).primaryColor,
+            height: 50,
+            child: TabBar(
+              indicatorColor: Colors.white,
+              labelStyle: TextStyle(fontSize: 16),
+              unselectedLabelStyle: TextStyle(fontSize: 16),
+              controller: _tabController,
+              isScrollable: false,
+              indicatorSize: TabBarIndicatorSize.tab,
+              tabs: _list.map((item) {
+                return Tab(text: item);
+              }).toList(),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+                controller: _tabController,
+                children: [KnowledgeTreeScreen(), NavigationScreen()]),
+          )
+        ],
+      ),
     );
   }
 
   @override
-  void onClickErrorWidget() {
-    // TODO: implement onClickErrorWidget
+  void onClickErrorWidget() {}
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 }
